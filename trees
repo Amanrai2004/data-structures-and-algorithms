@@ -1,0 +1,412 @@
+package com.company;
+
+import java.util.*;
+
+public class trees1 {
+      static class  treenode<T>{
+        T data ;
+        treenode <T> left;
+        treenode <T> right;
+       public treenode(T data ){
+            this.data = data;
+        }
+    }
+    
+ //   ********************************************************
+  //  THIS CODE HELP TO PRINT A TREE DATA 
+  //  *********************************************************
+  
+  
+    public static void print(treenode<Integer> root){
+          if(root == null){
+              return;
+          }
+        System.out.print(root.data +":");
+          if(root.left!= null){
+              System.out.print("L"+root.left.data+",");
+          }
+        if(root.right!= null){
+            System.out.print("R"+root.right.data);
+        }
+        System.out.println();
+        print(root.right);
+        print(root.left);
+    }
+    
+  //  ***************************************************************
+  //  THIS PROGRAM HELP TO TAKE INPUT IN THE FORM OF TREE
+  //  ***************************************************************
+    public static treenode<Integer> takeinput(boolean isroot ,int parentdata , boolean isleft ){
+        Scanner s = new Scanner(System.in);
+        if(isroot == true){
+            System.out.println("enter the data  root");
+        }else {
+            if (isleft) {
+                System.out.println("enter the left node data of " + parentdata);
+            }
+            if (!isleft) {
+                System.out.println("enter the right node data of " + parentdata);
+            }
+        }
+        int x = s.nextInt();
+        if(x == -1){
+            return null;
+        }
+        treenode <Integer> root = new treenode<>(x);
+        treenode<Integer> subleft = takeinput(false ,root.data ,true);
+        treenode<Integer> subright = takeinput(false , root.data, false);
+        root.left = subleft;
+        root.right = subright;
+        return root;
+    }
+    
+    
+  //  ****************************************************************
+  //  THIS CODE HELP TO COUNT NUMBER OF NODE PRESENT IN TREE
+  //  ****************************************************************
+  
+    public static int numberofnode(treenode<Integer> root){
+          if(root == null){
+              return 0;
+          }
+          int leftnode = numberofnode(root.left);
+          int rightnode = numberofnode(root.right);
+        //  int ans = 1+leftnode+rightnode;//*****...try to decrease the size of code...*******
+          //return ans;
+        return 1+leftnode+rightnode;
+    }
+    
+  //  ****************************************************************
+  //  THIS CODE HELP TO PRINT A TREE IN PREORDER
+  //  ****************************************************************
+  
+    public static  void preorder(treenode<Integer> root){
+          if(root == null){
+              return ;
+          }
+        System.out.println(root.data);
+          preorder(root.left);
+          preorder(root.right);
+    }
+    
+//  ****************************************************************
+//  THIS CODE HELP TO PRINT A TREE IN POSTORDER
+//  ****************************************************************
+    public static  void postorder(treenode<Integer> root){
+        if(root == null){
+            return ;
+        }
+        postorder(root.left);
+        postorder(root.right);
+        System.out.println(root.data);
+    }
+    
+    //  ****************************************************************
+//  THIS CODE HELP TO PRINT A TREE IN INORDER
+//  ****************************************************************
+
+    public static  void inorder(treenode<Integer> root){
+     if(root == null){
+         return;
+     }
+     inorder(root.left);
+        System.out.println(root.data);
+        inorder(root.right);
+    }
+    
+    //  ****************************************************************
+//  THIS CODE HELP TO PRINT LARGESTNODE IN ATREE
+//  ****************************************************************
+    public static int largestnode(treenode<Integer> root){
+          if(root == null){
+              return 0;
+          }
+          int largetleft = largestnode(root.left);
+          int largestrigt = largestnode(root.right);
+          int larg = Math.max(root.data , Math.max(largestrigt ,largetleft));
+          return larg;
+    }
+    
+    //  ****************************************************************
+//  THIS CODE HELP TO PRINT HEIGHT OF TREE
+//  ****************************************************************
+
+    public static int hight(treenode<Integer> root){
+          if(root == null){
+              return 0;
+          }
+          int hight_left = hight(root.left);
+          int hight_right = hight(root.right);
+          int ans = 1+Math.max(hight_right,hight_left);
+          return ans;
+    }
+    
+    //  ****************************************************************
+//  THIS CODE HELP TO PRINT A LEAFNODE
+//  ****************************************************************
+    public static int leafnode( treenode<Integer> root){
+          if(root == null){
+              return 0;
+          }
+          if(root.left == null && root.right == null){
+              System.out.println(root.data +"");   // this line help to print leaf node of binary tree
+              return 1;         // this line healp to give how much leaf node preasent in binary tree
+          }
+          int leaf_left = leafnode(root.left);
+          int right_leaf = leafnode(root.right);
+          int ans = leaf_left+right_leaf;
+          return ans;
+    }
+//*********************************************************************************
+  //  ************* this code help to find k depth element of binary tree*********
+//*********************************************************************************
+
+    public static void printknode(treenode<Integer> root ,int k){
+          if(root == null){
+              return;
+          }
+          if(k== 0){
+              System.out.println(root.data );
+          }
+          printknode(root.left,k-1);
+          printknode(root.right , k-1);
+    }
+//  ****************************************************************
+//  THIS CODE HELP TO PRINT TREE IS BLANCED OR NOT
+//  ****************************************************************
+    public static boolean isball(treenode<Integer> root){
+          int lheight = hight(root.left);
+          int rheight = hight(root.right);
+          if(Math.abs(lheight-rheight)> 1){
+              return false;
+          }
+         boolean isballeft = isball(root.left);
+          boolean isbalright = isball(root.right);
+          return isballeft && isbalright;
+    }
+//*************************************************************************************
+//    **********... this code help to determine is given tree is BSF or not......*********
+//***************************************************************************************
+    public static boolean bsftree(treenode<Integer> root , int a){
+          if(root == null){
+              return false;
+          }
+         if(root.data == a){
+             return true;
+         }
+         if(a> root.data){
+            return bsftree(root.right , a);
+         }
+        else {
+            return bsftree(root.left , a);
+         }
+    }
+
+//**************************************************************************
+//PRINT IN RANGE
+//**************************************************************************
+    public  static void printinrange(treenode<Integer> root ,int r1 , int r2){
+          if(root == null){
+              return;
+          }
+          if (root.data < r1){
+              printinrange(root.right , r1 , r2);
+          }
+          else if(root.data >=r1){
+              printinrange(root.left , r1 , r2);
+          }else if(root.data >= r1 && root.data< r2){
+              System.out.println(root.data +" ");
+              printinrange(root.left , r1 , r2);
+              printinrange(root.right , r1 , r2);
+          }
+    }
+    //  ****************************************************************
+//  THIS CODE HELP TO PRINT A TREE IS BLANCED OR NOT 
+//THIS CODE TIME COMP IS LESS THAN THE UPPAR CODE
+//  ****************************************************************
+    public static treebal isbalbetter(treenode<Integer> root){
+          if(root == null){
+              treebal ans = new treebal(0,true);
+              return ans;
+          }
+          treebal righttree = isbalbetter(root.right);
+          treebal lefttree = isbalbetter(root.left);
+          int leftheight = lefttree.height;
+          int righthight = righttree.height;
+          boolean isbalright = righttree.isbal;
+          boolean isballeft = lefttree.isbal;
+          int finalheight = 1+Math.max(leftheight ,righthight);
+          boolean isbal = true;
+          if(Math.abs(leftheight-righthight) >1){
+             isbal = false ;
+          }
+          if(!isballeft || !isbalright){
+              isbal = false;
+          }
+          treebal ans = new  treebal(finalheight, isbal);
+          return ans;
+    }
+
+//    *************this code time complexity is n2 ********************
+
+    public static int diameter(treenode<Integer> root){
+          int lheight = hight(root.left);
+          int rheight = hight(root.right);
+          int rootdiameter = 1+lheight+rheight;
+          int diameterleft = diameter(root.left);
+          int diameterright = diameter(root.right);
+          int ans = Math.max(diameterleft ,Math.max(rootdiameter , diameterright));
+          return ans;
+    }
+    //  ****************************************************************
+//  THIS CODE HELP TO PRINT A TREE DIAMETER
+//  ****************************************************************
+    public treeHd diameterbeter(treenode<Integer> root){
+          if(root == null){
+              treeHd ans = new treeHd(0, 0);
+              return ans;
+          }
+          treeHd lefttree = diameterbeter(root.left);
+          treeHd righttree = diameterbeter(root.right);
+          int lefthight = lefttree.height;
+          int righthight = righttree.height;
+          int leftdiameter = lefttree.diametar;
+          int rightdiameter = righttree.diametar;
+          int rootdiameter = 1+lefthight+righthight;
+          int height = 1+Math.max(righthight,lefthight);
+          int maindiameter = Math.max(rootdiameter,Math.max(leftdiameter,rightdiameter));
+          treeHd ans = new treeHd(height,maindiameter);
+          return ans;
+    }
+    
+    //  ****************************************************************
+//  THIS CODE HELP TO PRINT A TREE IN LEVELORDER
+//  ****************************************************************
+    public static void leveloder(treenode<Integer> root){
+         Queue<treenode<Integer>> q = new LinkedList<>();
+             q.add(root);
+             while(!q.isEmpty()){
+              treenode<Integer> r = q.remove();
+                 System.out.println(r.data +" ");
+                 if(r.left!= null){
+                    q.add(r.left);
+                 }
+                 if(r.right != null){
+                     q.add(r.right);
+                 }
+             }
+    }
+//  ****************************************************************
+//  THIS CODE HELP TO CONVERT SORTED ARRAY TO BST
+//  ****************************************************************
+    public static treenode<Integer> sortedarraytoBST(int[] arr, int start , int end){
+          if(start> end){
+              return null;
+          }
+          int mid = (start+end)/2;
+          treenode<Integer> root = new treenode<>(arr[mid]);
+          treenode<Integer> leftsub = sortedarraytoBST(arr , start,mid-1);
+          treenode<Integer> rightsub = sortedarraytoBST(arr ,mid+1,end);
+          root.left = leftsub;
+          root.right = rightsub;
+          return root;
+    }
+    //  ****************************************************************
+//  THIS CODE HELP TO PRINT A TREE MAXIMUM DATA 
+//  ****************************************************************
+    public static int maximum(treenode<Integer> root){
+          if(root == null){
+              return Integer.MIN_VALUE;
+          }
+          int leftmax = maximum(root.left);
+          int rightmax = maximum(root.right);
+          return Math.max(leftmax,Math.max(rightmax ,root.data));
+    }
+    //  ****************************************************************
+//  THIS CODE HELP TO PRINT A TREE MINIMUM DATA 
+//  ****************************************************************
+    public static int minimum(treenode<Integer> root){
+        if(root == null){
+            return Integer.MAX_VALUE;
+        }
+        int leftmax = minimum(root.left);
+        int rightmax = minimum(root.right);
+        return Math.min(leftmax,Math.max(rightmax ,root.data));
+    }
+    //  ****************************************************************
+//  THIS CODE HELP TO PRINT A TREE IS BST OR NOT
+//  ****************************************************************
+    public static boolean isBSt(treenode<Integer> root){
+          if(root == null){
+              return true;
+          }
+          int leftmax = maximum(root.left);
+          int rightmin = minimum(root.left);
+          if(root.data<leftmax || root.data>rightmin){
+              return false;
+          }
+          boolean leftans = isBSt(root.left);
+          boolean rightans = isBSt(root.right);
+          if(rightans == false || leftans == false){
+              return false;
+          }
+          return true;
+    }
+    //  ****************************************************************
+//  THIS CODE HELP TO PRINT A TREE IS BALANCED OR NOT
+//  ****************************************************************
+    public static boolean isbstbetter(treenode<Integer> root,int max ,int min){
+          if(root ==null){
+              return true;
+          }
+          if(root.data> max ){
+              return false;
+          }
+          if (root.data < min){
+              return false;
+          }
+          boolean lefttree = isbstbetter(root.left , root.data-1, min );
+          boolean righttree = isbstbetter(root.right,max, root.data);
+          if(lefttree && righttree){
+              return true;
+          }
+          return false;
+      }
+
+
+    public static void main(String[] args) {
+//        treenode <Integer> root = new treenode<>(5);
+//        System.out.println(root.data+" "+root.left+" "+root.right);
+//        treenode <Integer> node1 = new treenode<>(6);
+//        treenode <Integer> node2 = new treenode<>(54);
+//        treenode <Integer> node3 = new treenode<>(56);
+//        root.left = node1;
+//        root.right = node2;
+//        node1.right = node3;
+//        treenode<Integer> root = takeinput(true , 0 , true);
+//       print(root);
+//       preorder(root);
+//        System.out.println();
+//        postorder(root);
+//        System.out.print(isbalbetter(root).isbal);
+//        leveloder(root);
+//        int arr [] ={1,2,3,4,5,6,7};
+//        treenode<Integer> root =sortedarraytoBST(arr ,0 ,6);
+//        print(root);
+
+        treenode<Integer> root = takeinput(true ,0, true);
+        print(root);
+        int x = largestnode(root);
+//        System.out.println(isbstbetter(root ,Integer.MAX_VALUE ,Integer.MIN_VALUE ));
+        System.out.println(x);
+
+    }
+class treeHd{
+     int height;
+     int diametar;
+     public treeHd(int height , int diametar){
+         this.height = height;
+         this.diametar = diametar;
+     }
+}
+    }
